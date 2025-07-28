@@ -113,7 +113,8 @@ app.use((err, req, res, next) => {
 })
 
 // server setup
-app.listen(9000, () => {
-    console.log("Server is listening at 9000");
+const port = process.env.PORT || 8080;
+app.listen(port, () => {
+    console.log(`Server is listening at ${port}`);
 });
 
