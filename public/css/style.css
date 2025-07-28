@@ -116,9 +116,5 @@ a{
 .flash-alert{
     position: absolute;
     top: 4rem;
-}
-
-@media(max-width:768px){
-
-
+    z-index: 10;
 }

@@ -67,10 +67,6 @@ app.get("/", (req, res) => {
 });
 
 
-// const store = MongoStore.create({
-//     mongoUrl: cloudDBUrl
-// })
-
 app.use(flash());
 
 
