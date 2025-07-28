@@ -62,10 +62,10 @@ app.use(session({
 }))
 
 // root route
-// app.get("/", (req, res) => {
-//     // res.redirect("/listings");
-//     res.send("done")
-// });
+app.use("/", listingsRoute
+    // res.redirect("/listings");
+    // res.send("done")
+);
 
 
 // const store = MongoStore.create({
