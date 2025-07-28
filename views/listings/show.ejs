@@ -31,10 +31,10 @@
 
         </div>
         <%if(currUser && currUser._id.equals(list.owner._id)){%>
-            <div class="btns">
-                <a href="/listings/<%= list._id%>/edit" class="btn btn-dark col-1 offset-3 update-btn">Edit</a>
+            <div class="btns col-8 offset-2 p-0">
+                <a href="/listings/<%= list._id%>/edit" class="btn btn-dark update-btn">Edit</a>
                 <form action="/listings/<%= list._id%>/delete?_method=DELETE" method="post"><button
-                        class="btn btn-dark offset-5">Delete</button></form>
+                        class="btn btn-dark">Delete</button></form>
             </div>
             <%}%>
                 <%if(!currUser){%>
@@ -65,30 +65,32 @@
                                 </fieldset>
 
                                 <label for="comment">Comments</label>
-                                <textarea name="review[comment]" id="comment" class="form-control" cols="50" rows="5"
+                                <textarea name="review[comment]" id="comment" class="form-control mb-2" cols="50" rows="5"
                                     placeholder="Have an openion? ,  tell us" required></textarea>
                                 <div class="invalid-feedback">Feedback Required !</div>
-                                <br>
-                                <button class="btn btn-outline-dark">Submit</button>
+                                
+                                <button class="btn btn-outline-dark mb-3">Submit</button>
                             </form>
                         </div>
                         <%}%>
                         
                             <%if(list.reviews!=""){%>
-                                <div class="col-6 offset-2">
-                                    <hr class="col-8 offset-2">
-                                    <p><b>All Reviews</b></p>
-
+                                
+                                <hr class="col-8 offset-2">
+                                <p class="col-8 offset-2"><b>All Reviews</b></p>
+                                <div class="col-8 offset-2 px-3">
+                                
                                     <div class="row">
 
+                                   
                                         <%for(let data of list.reviews){%>
-                                            <div class="card col-5 ms-3 mb-3">
+                                            <div class="card col-sm-1 col-md-5 col-lg-4 mb-3 p-2 px-2 me-2">
                                                 <div class="card-body">
-                                                    <h5 class="card-title"><i>@<%=data.author.username %></i></h5>
-                                                    <p class="starability-result card-text"
+                                                    <h6 class="card-title"><i>@<%=data.author.username %></i></h6>
+                                                    <p class="starability-result card-text mb-2"
                                                         data-rating="<%=data.rating%>">
                                                     </p>
-                                                    <p class="card-text">
+                                                    <p class="card-text mb-2">
                                                         <%= data.comment%>
                                                     </p>
                                                     <p class="card-text"><b>
@@ -97,7 +99,7 @@
                                                 </div>
 
                                                 <%if(currUser && currUser._id.equals(data.author._id)){%>
-                                                    <form class="mb-3 mt-3"
+                                                    <form class="mb-0 mt-3"
                                                         action="/listings/<%=list._id%>/reviews/<%=data._id%>?_method=DELETE"
                                                         method="post">
                                                         <button class="btn btn-dark btn-sm">Delete</button>
@@ -105,14 +107,14 @@
                                                     <%}%>
                                             </div>
                                             <%}%>
-                                    </div>
+                                     </div>
                                 </div>
-                                
+                                <hr class="col-8 offset-2">
                                 <%}%>
                                 <div class="col-8 offset-2"> 
                                     <h5>View On Map</h5>
                                 </div>
-                                <div class="col-8 offset-2">
+                                <div class="col-8 offset-2 p-0">
                                     
                                     <div id="map" style="height: 50vh;"></div> 
                                      <!-- data-place="<%= list.location %>"    -->

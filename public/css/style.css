@@ -64,9 +64,9 @@ body{
     padding: 0 !important;
 }
 
-.card-text{
+/* .card-text{
     font-weight: 400 !important;
-}
+} */
 
 .listing-link{
     text-decoration: none;
@@ -97,6 +97,9 @@ a{
 .update-btn{
      background-color: rgb(107, 180, 244) !important;
      border: none;
+     /* width: max-content; */
+     display: inline-block;
+     margin-right: 1.2rem;
 }
 
 /* show-page */
