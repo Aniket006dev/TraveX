@@ -39,12 +39,12 @@ module.exports.index = async (req, res) => {
     query.category = category;
   }
   let searchRegex;
-  if (search && search.trim() !== "") {
+  if (search && search.trim()!== "") {
     if(!isNaN(parseFloat(search))){
       query.price={ $lte: parseFloat(search)};
     }
     else{
-      searchRegex = new RegExp(search, "i"); // case-insensitive
+      searchRegex = new RegExp(search.trim(), "i"); // case-insensitive
       query.$or = [
         { title: searchRegex },
         { location: searchRegex },
