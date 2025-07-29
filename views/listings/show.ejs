@@ -41,8 +41,8 @@
                     <a href="/listings/<%=list._id%>/logged/reviews" class="btn btn-outline-dark col-4 offset-4 mb-3">Leave a
                         review</a>
                     <%}else{%>
+                        <hr class="col-8 offset-2 mt-3">
                        <div class="col-8 offset-2">
-                            <hr>
                             <h5>Tell us your views...</h5>
                             <form action="/listings/<%=list._id%>/reviews" method="post" novalidate
                                 class="needs-validation">
@@ -84,7 +84,7 @@
 
                                    
                                         <%for(let data of list.reviews){%>
-                                            <div class="card col-sm-1 col-md-5 col-lg-4 mb-3 p-2 px-2 me-2">
+                                            <div class="card col-md-5 col-lg-4 mb-3 p-2 px-2 me-2" /*style="width: auto";*/>
                                                 <div class="card-body">
                                                     <h6 class="card-title"><i>@<%=data.author.username %></i></h6>
                                                     <p class="starability-result card-text mb-2"

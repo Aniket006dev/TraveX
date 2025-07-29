@@ -26,6 +26,13 @@
                         <input type="file" name="listing[image]" class="form-control"
                             id="image">    
                     </div>
+                     <div class="mb-3">
+                       <label for="categ" class="form-label">Choose Category:</label>
+                            <select name="listing[category]" id="categ" class="form-select" disabled>
+                                <option value="top choices" selected>Top Choices</option>
+                            </select>
+                            <div class="invalid-feedback">Please select category</div>
+                     </div>
                     <div class="row">
 
                         <div class="mb-3 col-md-4">
