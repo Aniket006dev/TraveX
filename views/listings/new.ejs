@@ -58,6 +58,12 @@
                             id="location" required>
                         <div class="invalid-feedback">Location field can't be empty</div>
                     </div>
+                    <!-- NEW FIELD FOR OWNER'S UPI ID -->            
+                    <div class="mb-3">
+                        <label for="upiId" class="form-label">Your UPI ID</label>
+                        <input type="text" name="listing[ownerUpiId]" placeholder="e.g. myupi@upi" class="form-control" required>
+                        <div class="invalid-feedback">Please enter your UPI ID</div>
+                    </div>
                     <button class="btn btn-primary add-btn mt-4">Add</button>
                 </form>
             </div>

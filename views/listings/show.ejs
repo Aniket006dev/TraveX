@@ -37,6 +37,7 @@
                         class="btn btn-dark">Delete</button></form>
             </div>
             <%}%>
+            <a href="/listings/<%= list._id %>/book"><button class="btn btn-outline-success col-4 offset-4 mt-4 mb-4">Book Now</button></a>
                 <%if(!currUser){%>
                     <a href="/listings/<%=list._id%>/logged/reviews" class="btn btn-outline-dark col-4 offset-4 mb-3">Leave a
                         review</a>

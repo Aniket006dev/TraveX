@@ -41,8 +41,6 @@ module.exports.isReviewAuthor=async(req,res,next)=>{
     next();
 }
 
-
-
 module.exports.validateListing=function validateListing(req,res,next){
     let{error} = listingSchema.validate(req.body);
     if(error){

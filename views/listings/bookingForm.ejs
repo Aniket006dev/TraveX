@@ -1,0 +1,59 @@
+<%- layout("./layouts/boilerplate.ejs")%>
+
+
+<div class="mb-5 col-8 offset-2">
+  <h2 class="mb-4">Book <%= listing.title %></h2>
+ <form action="/listings/<%= listing._id %>/book" method="POST" class="p-3 shadow-sm" style=" background-color: antiquewhite; border: 2px solid rgb(255, 225, 179); border-radius: 0.5rem;">
+    <div class="mb-3">
+      <label for="startDate" class="form-label">Start Date</label>
+      <input type="text" id="startDate" class="form-control" name="startDate" placeholder="Pick Start date" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="endDate" class="form-label">End Date</label>
+      <input type="text" id="endDate" class="form-control" name="endDate" placeholder="Pick end date" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="email" class="form-label">Your Email</label>
+      <input type="email" class="form-control" name="email" placeholder="email" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="phone" class="form-label">Phone</label>
+      <input type="text" class="form-control" name="phone" placeholder="mobile" required>
+    </div>
+
+    <div class="form-check mb-3">
+      <input class="form-check-input" type="checkbox" name="agree" required>
+      <label class="form-check-label">
+        I agree to the <a href="#">terms & conditions</a>
+      </label>
+    </div>
+
+    <button type="submit" class="btn btn-primary w-100">Proceed to Payment</button>
+  </form>
+</div>
+
+
+<script>
+    const disabledDates = <%- JSON.stringify(disabledDates) %>;  // from backend
+    const today = new Date().toISOString().split("T")[0]; // disable past dates
+
+    flatpickr("#startDate", {
+        dateFormat: "Y-m-d",
+        minDate: today,             // disable past dates
+        disable: disabledDates,     // disable already booked dates
+        onChange: function(selectedDates, dateStr) {
+            if (selectedDates.length > 0) {
+                endCalendar.set('minDate', dateStr); // ensure endDate >= startDate
+            }
+        }
+    });
+
+    const endCalendar = flatpickr("#endDate", {
+        dateFormat: "Y-m-d",
+        minDate: today,
+        disable: disabledDates
+    });
+</script>

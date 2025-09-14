@@ -21,7 +21,7 @@ router.
     route("/:id")
     .get(wrapAsync(listingController.showListing))
     .put(isloggedIn, isOwner,upload.single('listing[image]'),
-        validateListing, wrapAsync(listingController.updateListing));
+        /*validateListing*/ wrapAsync(listingController.updateListing));
 
 // show route before login
 router.get("/:id/logged/reviews", isloggedIn, listingController.showListingBeforeLogged);
@@ -31,5 +31,6 @@ router.get("/:id/edit", isloggedIn, isOwner, wrapAsync(listingController.editLis
 
 // delete route
 router.delete("/:id/delete", isloggedIn, isOwner, wrapAsync(listingController.distroyListing));
+
 
 module.exports = router

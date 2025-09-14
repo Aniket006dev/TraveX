@@ -8,7 +8,8 @@ module.exports.listingSchema=joi.object({
         category: joi.string().valid("top choices", "popular cities", "island", "arctic", "affordable", "mountains", "holiday hub").required(),
         location:joi.string().required(),
         image:joi.string().allow("",null),
-        price:joi.number().required().min(0)
+        price:joi.number().required().min(0),
+        ownerUpiId: joi.string().required()
     }).required()
 });
 

@@ -19,6 +19,7 @@ const passport=require("passport");
 const localStrategy=require("passport-local");
 const User=require("./models/user.js");
 const userRoute=require("./router/userRoute.js");
+const bookingRoute=require("./router/bookings.js");
 
 const cloudDBUrl=process.env.ATLASDB_URL;
 
@@ -92,6 +93,10 @@ app.use("/listings",listingsRoute)
 
 // Review route
 app.use("/listings/:id",reviewRoute)
+
+//booking route
+app.use("/listings",bookingRoute)
+
 
 // signup route & login route
 app.use("/",userRoute);

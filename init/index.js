@@ -25,7 +25,7 @@ function assignCategoryByIndex(index) {
 }
 const listingdata = async () => {
     initdata.data = initdata.data.map((obj,index) => ({
-        ...obj, owner: '687e8e0f66262bd321f12260' , category: assignCategoryByIndex(index),
+        ...obj, owner: '687e8e0f66262bd321f12260' , category: assignCategoryByIndex(index), ownerUpiId:'9336546396@axl', bookedDates: [],
     }));
     await listing.deleteMany({});
     await listing.insertMany(initdata.data);

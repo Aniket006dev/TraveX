@@ -30,7 +30,9 @@ const listingSchema=new Schema({
     owner:{
     type:Schema.Types.ObjectId,
     ref:"User",
-    }
+    },
+    ownerUpiId: String, // e.g. "ownername@upi"
+    bookedDates: [String] 
 });
 
 
