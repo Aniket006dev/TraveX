@@ -26,6 +26,8 @@ function normalizeForOCR(str = "") {
         .replace(/\s+/g, "")   // remove spaces
         .replace(/\|/g, "l")   // OCR mistake: | → l
         .replace(/0/g, "o")    // OCR mistake: 0 → o
+        .replace(/i/g, "l")
+        .replace(/1/g, "l")
         .replace(/[@]/g, "@"); // just ensure @ stays proper
 }
 
@@ -41,28 +43,31 @@ function numberLikePatterns(n) {
 }
 
 // try to find a date in the OCR text and parse it
-function extractPaymentDate(text) {
-    const candidates = [];
-    const patterns = [
-        /\b(\d{1,2}[\/\-]\d{1,2}[\/\-]\d{4})\b/g,           // 16/08/2025 or 16-08-2025
-        /\b(\d{4}[\/\-]\d{1,2}[\/\-]\d{1,2})\b/g,           // 2025/08/16
-        /\b(\d{1,2}\s+[A-Za-z]{3,}\s+\d{4})\b/g,            // 16 Aug 2025
-        /\b([A-Za-z]{3,}\s+\d{1,2},\s*\d{4})\b/g,           // Aug 16, 2025
-    ];
+        function extractPaymentDate(text) {
+            const candidates = [];
+            const patterns = [
+                /\b(\d{1,2}[\/\-]\d{1,2}[\/\-]\d{4})\b/g,           
+                /\b(\d{4}[\/\-]\d{1,2}[\/\-]\d{1,2})\b/g,           
+                /\b(\d{1,2}\s+[A-Za-z]{3,}\s+\d{4})\s+at\s+(\d{1,2}:\d{2}\s*(AM|PM))/gi, 
+                /\b([A-Za-z]{3,}\s+\d{1,2},\s*\d{4})\b/g,           
+            ];
+            for (const re of patterns) {
+                let m;
+                while ((m = re.exec(text)) !== null) {
+                    candidates.push(m[1] + (m[2] ? " " + m[2] : ""));
+                }
+            }
 
-    for (const re of patterns) {
-        let m;
-        while ((m = re.exec(text)) !== null) candidates.push(m[1]);
-    }
-
-    const formats = ["DD/MM/YYYY", "D/M/YYYY", "DD-MM-YYYY", "YYYY/MM/DD", "YYYY-MM-DD", "DD MMM YYYY", "MMM DD, YYYY"];
-    for (const c of candidates) {
-        const parsed = moment.tz(c, formats, true, "Asia/Kolkata");
-        if (parsed.isValid()) return parsed;
-    }
-    return null;
-}
-
+            const formats = [
+                "DD/MM/YYYY", "D/M/YYYY", "DD-MM-YYYY", "YYYY/MM/DD", "YYYY-MM-DD",
+                "DD MMM YYYY", "DD MMMM YYYY hh:mm A", "MMM DD, YYYY"
+            ];
+            for (const c of candidates) {
+                const parsed = moment.tz(c, formats, true, "Asia/Kolkata");
+                if (parsed.isValid()) return parsed;
+            }
+            return null;
+        }
 function withinAllowedWindow(paymentMoment) {
     // allow payment on "today" or "yesterday" (because OCR timezones / delays)
     const today = moment().startOf("day");
@@ -130,17 +135,18 @@ module.exports.confirmPayment=async (req, res) => {
     const upiOk = expectedUpi && ocr.includes(expectedUpi);
 
     // ---------- Verify Amount ----------
-    const amt = Number(booking.amount?.totalCost || 0);
+    const amt = Number(booking.price?.totalCost || 0);
     const amtOk = numberLikePatterns(amt).some((re) => re.test(ocrRaw));
 
     // ---------- Verify Date ----------
     const foundDate = extractPaymentDate(ocrRaw);
     const dateOk = foundDate ? withinAllowedWindow(foundDate) : false;
 
-    // console.log("OCR Result:", ocrRaw);
-    // console.log("Normalized OCR:", ocr);
-    // console.log("Expected UPI:", expectedUpi);
-    // console.log("UPI Match:", upiOk, "Amount Match:", amtOk, "Date Match:", dateOk);
+    console.log("OCR Result:", ocrRaw);
+    console.log("Normalized OCR:", ocr);
+    console.log("Expected UPI:", expectedUpi);
+    console.log("foundDate : ", foundDate,amt);
+    console.log("UPI Match:", upiOk, "Amount Match:", amtOk, "Date Match:", dateOk);
 
     // ---------- If any check fails → redirect to failed page ----------
     if (!(upiOk && amtOk && dateOk)) {
@@ -189,7 +195,7 @@ module.exports.confirmPayment=async (req, res) => {
         // paymentScreenshotPath: req.file.path
     });
     await confirmedBooking.save();
-    delete req.session.paymentVisited[listing._id]; 
+    // delete req.session.paymentVisited[listing._id]; 
 
     // Send email to user
     await transporter.sendMail({
@@ -200,7 +206,7 @@ module.exports.confirmPayment=async (req, res) => {
 
         📅 Dates: ${booking.startDate} → ${booking.endDate}
         📍 Location: ${listing.location || "Shared on Travex"}
-        💰 Total Paid: ₹${booking.amount?.totalCost || "N/A"}
+        💰 Total Paid: ₹${booking.price?.totalCost || "N/A"}
 
         We look forward to hosting you!  
         For any support, feel free to contact us.  
@@ -220,7 +226,7 @@ module.exports.confirmPayment=async (req, res) => {
             from: process.env.EMAIL_USER,
             to: listing.owner.email,
             subject: "New Booking Confirmed on Travex 📢",
-            text: `Good news! 🎉  A new booking has been confirmed for your listing:  🏡 "${listing.title}"  📅 Dates: ${booking.startDate} → ${booking.endDate}  👤 Guest: ${booking.name || "Guest"}  📧 Email: ${booking.email}  📞 Phone: ${booking.phone || "Not provided"}  💰 Amount Paid: ₹${booking.amount?.totalCost || "N/A"}  
+            text: `Good news! 🎉  A new booking has been confirmed for your listing:  🏡 "${listing.title}"  📅 Dates: ${booking.startDate} → ${booking.endDate}  👤 Guest: ${booking.name || "Guest"}  📧 Email: ${booking.email}  📞 Phone: ${booking.phone || "Not provided"}  💰 Amount Paid: ₹${booking.price?.totalCost || "N/A"}  
             Please prepare to host your guest during the above period.  
             - Team Travex`
             ,
