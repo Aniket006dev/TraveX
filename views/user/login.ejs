@@ -1,22 +1,27 @@
 <%- layout("./layouts/boilerplate.ejs")%>
-<div class="row mb-3 mt-4">
-    <h1 class="col-6 offset-3">Login-@TraveX</h1>
-    <div class="col-6 offset-3">
+<div class="row  mb-3">
+    <h1 class="col-6 offset-3">Login @TraveX</h1>
+    <div class="col-6 offset-3 formbox">
             <hr>
             <form action="/login" method="post" novalidate class="needs-validation">
                 <div class="mb-3">
                         <label for="username" class="form-label">Username:</label>
                         <input type="text" name="username" placeholder="enter username" class="form-control"
                             id="username" required>
-                    
+                        <div class="valid-feedback">Avaliable !</div>
+                        <div class="invalid-feedback">Please enter email!</div>
                 </div>
-                
                 <div class="mb-3">
                         <label for="password" class="form-label">Password:</label>
-                        <input type="password" name="password" placeholder="enter password" class="form-control"
+                        <input type="password" name="password" class="form-control" placeholder="password"
                             id="password" required>
+                        <div class="invalid-feedback">Please enter password!</div>
                 </div>
-                <button class="btn btn-success add-btn mb-3">Login</button>
+                <div style="display: flex; justify-content: space-between;">
+
+                  <button class="btn btn-success add-btn mb-3">Submit</button>
+                  <span style="text-align: center;"><a href="/signup" style="color: #2a71bc; text-decoration: underline;">Not Registered? Create account</a></span>
+                </div>
             </form>
         </div>
 </div>
