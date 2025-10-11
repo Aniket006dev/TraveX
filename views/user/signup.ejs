@@ -1,34 +1,71 @@
 <%- layout("./layouts/boilerplate.ejs")%>
-<div class="row  mb-3">
-    <h1 class="col-6 offset-3">Sign-Up @TraveX</h1>
-    <div class="col-6 offset-3">
-            <hr>
-            <form action="/signup" method="post" novalidate class="needs-validation">
-                <div class="mb-3">
-                        <label for="username" class="form-label">Username:</label>
-                        <input type="text" name="username" placeholder="enter username" class="form-control"
-                            id="username" required>
-                        <div class="valid-feedback">Avaliable !</div>
-                        <div class="invalid-feedback">Please enter email!</div>
-                </div>
-                <div class="mb-3">
-                        <label for="email" class="form-label">Email:</label>
-                        <input type="email" name="email"
-                        class="form-control" placeholder="enter email"
-                            id="email" required>
-                        <div class="invalid-feedback">Please enter email!</div>
-                </div>
-                <div class="mb-3">
-                        <label for="password" class="form-label">Password:</label>
-                        <input type="password" name="password" class="form-control" placeholder="password"
-                            id="password" required>
-                        <div class="invalid-feedback">Please enter password!</div>
-                </div>
-                <div style="display: flex; justify-content: space-between;">
 
-                  <button class="btn btn-success add-btn mb-3">Submit</button>
-                  <span style="text-align: center;"><a href="/login" style="color: #2a71bc; text-decoration: underline;">Already Registered? Login here</a></span>
-                </div>
-            </form>
-        </div>
+<style>
+  .card {
+    background-color: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+    color: #000000;
+    width: 100%;
+    max-width: 400px;
+  }
+
+  .form-control {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: #000000;
+  }
+
+  .form-control::placeholder {
+    color: #000000;
+  }
+
+  .btn-primary {
+    background: rgba(40, 167, 69, 0.8);
+    border: none;
+  }
+
+  .btn-primary:hover {
+    background: rgba(40, 167, 69, 1);
+  }
+
+  h2 {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+</style>
+
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+  <div class="card p-4">
+    <h2>Sign-Up @TraveX</h2>
+    <form action="/signup" method="post" novalidate class="needs-validation">
+      <div class="mb-3">
+        <label for="username" class="form-label">Username:</label>
+        <input type="text" name="username" placeholder="Enter username" class="form-control" id="username" required>
+        <div class="valid-feedback">Available!</div>
+        <div class="invalid-feedback">Please enter username!</div>
+      </div>
+
+      <div class="mb-3">
+        <label for="email" class="form-label">Email:</label>
+        <input type="email" name="email" class="form-control" placeholder="Enter email" id="email" required>
+        <div class="invalid-feedback">Please enter email!</div>
+      </div>
+
+      <div class="mb-3">
+        <label for="password" class="form-label">Password:</label>
+        <input type="password" name="password" class="form-control" placeholder="Enter password" id="password" required>
+        <div class="invalid-feedback">Please enter password!</div>
+      </div>
+
+      <button type="submit" class="btn btn-primary w-100 mb-3">Submit</button>
+
+      <div class="text-center">
+        <a href="/login" style="color: #064877;">Already Registered? Login here</a>
+      </div>
+    </form>
+  </div>
 </div>
